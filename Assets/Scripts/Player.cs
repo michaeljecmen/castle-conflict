@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject minion;
+    public GameObject redMinion;
+    public GameObject blueMinion;
 
     // Start is called before the first frame update
     void Start()
@@ -25,13 +26,16 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
             rb.AddForce(Vector2.down);
 
-        // if e pressed, spawn prefab
+        // if Q pressed, spawn spawn red
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            SpawnMinion(redMinion);
+        }
         if (Input.GetKeyDown(KeyCode.E)) {
-            SpawnMinion();
+            SpawnMinion(blueMinion);
         }
     }
 
-    private void SpawnMinion()
+    private void SpawnMinion(GameObject minion)
     {
         Instantiate(minion, minion.transform.position, Quaternion.identity);
     }
