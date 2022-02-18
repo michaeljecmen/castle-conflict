@@ -60,6 +60,7 @@ public class AttackUnit : Entity
             // do not destroy the other guy, that's his job
             if (rank <= otherEntity.rank)
             {
+                WorldManager.getInstance().destroyUnit(this);
                 Destroy (gameObject);
             }
         }

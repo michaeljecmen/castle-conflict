@@ -15,7 +15,7 @@ public class WorldManager : MonoBehaviour
     private Hashtable leftTeamUnits = new Hashtable();
     private Hashtable rightTeamUnits = new Hashtable();
 
-    // TODO find better solution
+    // TODO find better solutiona
     public GameObject leftSoldier;
     public GameObject rightSoldier;
     public GameObject leftDog;
