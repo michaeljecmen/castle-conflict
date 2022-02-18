@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3172236290831355817}
   - component: {fileID: 7978112856627214340}
-  - component: {fileID: 1192290723444875522}
   - component: {fileID: -5818250384820374051}
   - component: {fileID: 1917240641218725708}
+  - component: {fileID: 2281498692210415149}
   m_Layer: 0
   m_Name: BlueSoldier
   m_TagString: Blue
@@ -85,22 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1192290723444875522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2153628252903997410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ddee3b99e214b744babedf1f3ddd479, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rank: 0
-  startVector: {x: 10, y: -3.5, z: 0}
-  endVector: {x: -10, y: -3.5, z: 0}
-  speed: 4
 --- !u!70 &-5818250384820374051
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -138,3 +122,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2281498692210415149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2153628252903997410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 955dfc8734920fc4f8e88e4dd4d4c53e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rank: 0
+  speed: 1
+  id: 0
+  team: 1
+  startVector: {x: 8.5, y: -3.5, z: 0}
+  endVector: {x: -8.5, y: -3.5, z: 0}
