@@ -11,6 +11,17 @@ public class WorldManager : MonoBehaviour
         return instance;
     }
 
+    // trees will spawn in a range up to X units out from the center
+    public float treeSpawnRadius;
+    public float treeSpawnHeight;
+
+    // max and min amount of time between tree spawns
+    public float minTreeSpawnTime = 2.0F;
+    public float maxTreeSpawnTime = 5.0F;
+
+    // will be set in start
+    private float timestampOfNextTreeSpawn;
+
     // per-object members
     private Hashtable leftTeamUnits = new Hashtable();
     private Hashtable rightTeamUnits = new Hashtable();
@@ -20,21 +31,30 @@ public class WorldManager : MonoBehaviour
     public GameObject rightSoldier;
     public GameObject leftDog;
     public GameObject rightDog;
+    public GameObject leftRG;
+    public GameObject rightRG;
+
+    // the resource to spawn
+    public GameObject resource;
 
     // public functions
     public void registerUnit(Entity unit) {
-        if (unit.team) {
-            leftTeamUnits.Add(unit.getId(), unit);
+        if (unit.team == Entity.LEFT_TEAM) {
+            leftTeamUnits.Add(unit.gameObject.GetInstanceID(), unit);
         } else {
-            rightTeamUnits.Add(unit.getId(), unit);
+            rightTeamUnits.Add(unit.gameObject.GetInstanceID(), unit);
         }
     }
     public void destroyUnit(Entity unit) {
-        if (unit.team) {
-            leftTeamUnits.Remove(unit.getId());
+        if (unit.team == Entity.LEFT_TEAM) {
+            leftTeamUnits.Remove(unit.gameObject.GetInstanceID());
         } else {
-            rightTeamUnits.Remove(unit.getId());
+            rightTeamUnits.Remove(unit.gameObject.GetInstanceID());
         }
+    }
+
+    private void setNextTreeSpawnTime() {
+        timestampOfNextTreeSpawn = Time.time + Random.Range(minTreeSpawnTime, maxTreeSpawnTime);
     }
 
     // TODO need a left and right team container of units
@@ -52,7 +72,10 @@ public class WorldManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start() {}
+    void Start() {
+        // pick the first tree spawn time
+        setNextTreeSpawnTime();
+    }
 
     // Update is called once per frame
     void Update() {
@@ -69,7 +92,25 @@ public class WorldManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C)) {
             SpawnMinion(rightDog, Entity.RIGHT_TEAM);
-        } 
+        }
+
+        // resource gatherers
+        if (Input.GetKeyDown(KeyCode.A)) {
+            SpawnMinion(leftRG, Entity.LEFT_TEAM);
+        }
+        if (Input.GetKeyDown(KeyCode.D)) {
+            SpawnMinion(rightRG, Entity.RIGHT_TEAM);
+        }
+
+        // when the current tree spawn threshhold is hit, spawn and pick the time
+        // for the next spawn
+        if (Time.time >= timestampOfNextTreeSpawn) {
+            // actually spawn the tree
+            float treeX = Random.Range(-1F * treeSpawnRadius, treeSpawnRadius);
+            Instantiate(resource, new Vector3(treeX, treeSpawnHeight, 0F), Quaternion.identity);
+
+            setNextTreeSpawnTime();
+        }
     }
 
     // instantiates a copy of the prefab and sets the team member variable

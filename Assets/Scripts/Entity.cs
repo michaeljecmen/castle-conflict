@@ -9,30 +9,35 @@ public class Entity : MonoBehaviour
     public const bool LEFT_TEAM = true;
     public const bool RIGHT_TEAM = false;
 
-    // the power level of this entity
-    public int rank = 0;
-
-    // movement speed in units per second.
-    public float speed = 1.0F;
-
-    // ID field for each unit, guaranteed to be unique
-    private static uint idMaster = 0; // TODO might need a way to reset this
-    private uint id = 0;
-
     // denotes which team the unit is on
     public bool team = true;
     
     // Start is called before the first frame update
-    void Start() {
-        id = idMaster++;
-        
-        // team should already be registered at this point
-        // TODO confirm this
-        WorldManager.getInstance().registerUnit(this);
-    }
+    void Start() {}
 
     // Update is called once per frame
     void Update() {}
 
-    public uint getId() { return id; }
+    // child classes call this when they collide with an object
+    // returns true iff on other team and has collider component
+    protected bool shouldCollisionOccur(Collision2D collision) {
+        // do nothing if no collider detected
+        if (collision.gameObject.GetComponent<Collider2D>() == null) {
+            return false;
+        }
+        
+        // if unit is on same team or has no collider, do nothing
+        Entity otherEntity = collision.gameObject.GetComponent<Entity>();
+        if (otherEntity == null || team == otherEntity.team) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // destroys the entity and deregisters it from the worldobject
+    protected void DestroyEntity() {
+        WorldManager.getInstance().destroyUnit(this);
+        Destroy(gameObject);
+    }
 }

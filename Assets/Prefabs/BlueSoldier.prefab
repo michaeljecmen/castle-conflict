@@ -121,7 +121,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 6
 --- !u!114 &2281498692210415149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,9 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955dfc8734920fc4f8e88e4dd4d4c53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 1
   rank: 0
   speed: 1
-  id: 0
-  team: 1
   startVector: {x: 8.5, y: -3.5, z: 0}
-  endVector: {x: -8.5, y: -3.5, z: 0}
+  endVector: {x: -12, y: -3.5, z: 0}
+  towerDamage: 5
