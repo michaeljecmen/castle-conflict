@@ -19,6 +19,10 @@ public class Tower : Entity
         
     }
 
+    public int getResourceCount() {
+        return resourceCount;
+    }
+
     // store resource in tower
     public void depositResource(int amt) {
         resourceCount += amt;

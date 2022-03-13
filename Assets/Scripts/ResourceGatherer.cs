@@ -7,13 +7,17 @@ public class ResourceGatherer : MovingObject
     public Vector3 towerLocation;
     private int carriedValue = 0;
 
+    public bool isCarrying() {
+        return carriedValue != 0;
+    }
+
     // if a unit on the other team hits us, we take damage and they die
     void OnCollisionEnter2D(Collision2D collision) {
         // resolve collision
         Resource resource = collision.gameObject.GetComponent<Resource>();
 
         // can only carry one at a time
-        if (resource != null && carriedValue == 0) {
+        if (resource != null && !isCarrying()) {
             carriedValue = resource.value;
 
             // now work back towards our tower

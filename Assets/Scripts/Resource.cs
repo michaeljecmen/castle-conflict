@@ -15,10 +15,13 @@ public class Resource : MonoBehaviour
     
     // if we get hit by a resource collector, then get collected
     void OnCollisionEnter2D(Collision2D collision) {
-        // if hit by a resource gatherer, destroy self
+        // if hit by a resource gatherer, decide if we give it our value
         ResourceGatherer rg = collision.gameObject.GetComponent<ResourceGatherer>();
-        if (rg != null) {
-            Destroy(gameObject);
+        if (rg == null || rg.isCarrying()) {
+            return;
         }
+
+        // then destroy ourselves
+        Destroy(gameObject);
     }
 }

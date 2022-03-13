@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// base class for all living objects, has rank
+// base class for all living objects
 public class Entity : MonoBehaviour
 {
     // constants for the Entity class
@@ -10,7 +10,7 @@ public class Entity : MonoBehaviour
     public const bool RIGHT_TEAM = false;
 
     // denotes which team the unit is on
-    public bool team = true;
+    public bool team = LEFT_TEAM;
     
     // Start is called before the first frame update
     void Start() {}

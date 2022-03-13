@@ -6,7 +6,7 @@ public class WorldManager : MonoBehaviour
 {
     // static members
     private static WorldManager instance;
-    public static WorldManager getInstance()
+    public static WorldManager getInstance() // TODO disable copying/moving
     {
         return instance;
     }
