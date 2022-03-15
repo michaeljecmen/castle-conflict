@@ -6,22 +6,26 @@ public class Resource : MonoBehaviour
 {
     // the amount of resource given by this object, if collected
     public int value;
+    public Vector3 startScale;
+    public Vector3 endScale;
+    public float timeToGrow;
+    private float startTime;
 
-    // Start is called before the first frame update
-    void Start() {}
+    void Start() {
+        startTime = Time.time;
+        transform.localScale = startScale;
+    }
 
-    // Update is called once per frame
-    void Update() {}
+    void Update() {
+        float elapsed = Time.time - startTime;
+        if (elapsed <= timeToGrow) {
+            float fractionOfGrowth = elapsed / timeToGrow;
+            transform.localScale = Vector3.Lerp(startScale, endScale, fractionOfGrowth);
+        }
+    }
     
     // if we get hit by a resource collector, then get collected
-    void OnCollisionEnter2D(Collision2D collision) {
-        // if hit by a resource gatherer, decide if we give it our value
-        ResourceGatherer rg = collision.gameObject.GetComponent<ResourceGatherer>();
-        if (rg == null || rg.isCarrying()) {
-            return;
-        }
-
-        // then destroy ourselves
+    public void onCollected() {
         Destroy(gameObject);
     }
 }

@@ -4,20 +4,8 @@ using UnityEngine;
 
 public class Tower : Entity
 {
-    public int health;
-    public int resourceCount = 0;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private int health;
+    private int resourceCount;
 
     public int getResourceCount() {
         return resourceCount;
@@ -26,15 +14,32 @@ public class Tower : Entity
     // store resource in tower
     public void depositResource(int amt) {
         resourceCount += amt;
+        WorldManager.getInstance().updateResourceUI(team, resourceCount);
+    }
+
+    // return whether or not you had enough resource to withdraw
+    public bool withdrawResource(int amt) {
+        if (resourceCount < amt) {
+            return false;
+        }
+        resourceCount -= amt;
+        WorldManager.getInstance().updateResourceUI(team, resourceCount);
+        return true;
     }
 
     // take the specified amount of damage
     public void takeDamage(int damage) {
         health -= damage;
+        WorldManager.getInstance().updateTowerHPUI(team, health);
         if (health <= 0) {
             // destroy the parent container which houses us
             Destroy(gameObject.transform.parent.gameObject);
         }
+    }
+
+    public void grantHealth(int amount) {
+        health += amount;
+        WorldManager.getInstance().updateTowerHPUI(team, health);
     }
 
     // if a unit on the other team hits us, we take damage and they die

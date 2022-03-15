@@ -149,4 +149,5 @@ MonoBehaviour:
   speed: 2
   startVector: {x: 8.5, y: -3.9, z: 0}
   endVector: {x: -12, y: -3.9, z: 0}
+  cost: 5
   towerLocation: {x: 8.5, y: -3.9, z: 0}

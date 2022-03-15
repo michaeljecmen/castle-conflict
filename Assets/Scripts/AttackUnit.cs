@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackUnit : MovingObject
+public class AttackUnit : Minion
 {
     // damage we deal to the enemy tower if we hit
     public int towerDamage;
@@ -15,11 +15,11 @@ public class AttackUnit : MovingObject
         }
         
         // resolve collision
-        MovingObject otherMO = collision.gameObject.GetComponent<MovingObject>();
-        if (otherMO != null) {
+        Minion other = collision.gameObject.GetComponent<Minion>();
+        if (other != null) {
             // here check if we got destroyed and if so, die
             // do not destroy the other guy, that's his job
-            if (rank <= otherMO.rank) {
+            if (rank <= other.rank) {
                 DestroyEntity();
             }
         }

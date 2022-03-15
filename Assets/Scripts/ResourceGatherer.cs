@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceGatherer : MovingObject
+public class ResourceGatherer : Minion
 {
     public Vector3 towerLocation;
     private int carriedValue = 0;
@@ -19,6 +19,7 @@ public class ResourceGatherer : MovingObject
         // can only carry one at a time
         if (resource != null && !isCarrying()) {
             carriedValue = resource.value;
+            resource.onCollected();
 
             // now work back towards our tower
             setDestination(towerLocation);
@@ -35,6 +36,19 @@ public class ResourceGatherer : MovingObject
                 tower.depositResource(carriedValue);
                 DestroyEntity();
             }
+        }
+
+        // IMPORTANT: only check if collision should occur once we know
+        // we are colliding with a unit, prevent us from not colliding with
+        // our own tower when we want to deposit
+        if (!shouldCollisionOccur(collision)) {
+            return;
+        }
+
+        // if we got hit by an attackunit, get hit
+        AttackUnit attacker = collision.gameObject.GetComponent<AttackUnit>();
+        if (attacker != null) {
+            DestroyEntity();
         }
     }
 }

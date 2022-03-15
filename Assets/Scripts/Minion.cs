@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingObject : Entity
+public class Minion : Entity
 {
     // the power level of this entity
     public int rank = 0;
@@ -19,6 +19,9 @@ public class MovingObject : Entity
 
     // total distance between the markers.
     private float journeyLength;
+
+    // cost of this unit, in resources
+    public int cost;
 
     // sets the destination from the current position to be the dest
     protected void setDestination(Vector3 dest) {

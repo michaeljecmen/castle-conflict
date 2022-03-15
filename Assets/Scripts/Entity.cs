@@ -11,12 +11,6 @@ public class Entity : MonoBehaviour
 
     // denotes which team the unit is on
     public bool team = LEFT_TEAM;
-    
-    // Start is called before the first frame update
-    void Start() {}
-
-    // Update is called once per frame
-    void Update() {}
 
     // child classes call this when they collide with an object
     // returns true iff on other team and has collider component

@@ -11,6 +11,15 @@ public class WorldManager : MonoBehaviour
         return instance;
     }
 
+    public int startingTowerHealth;
+    public int startingResourceCount;
+    public float timeBetweenResourceIncrements;
+    public int resourceIncrement;
+    private float timestampOfNextResourceIncrement;
+
+    // the resource to spawn
+    public GameObject resource;
+
     // trees will spawn in a range up to X units out from the center
     public float treeSpawnRadius;
     public float treeSpawnHeight;
@@ -26,16 +35,39 @@ public class WorldManager : MonoBehaviour
     private Hashtable leftTeamUnits = new Hashtable();
     private Hashtable rightTeamUnits = new Hashtable();
 
-    // TODO find better solutiona
-    public GameObject leftSoldier;
-    public GameObject rightSoldier;
-    public GameObject leftDog;
-    public GameObject rightDog;
-    public GameObject leftRG;
-    public GameObject rightRG;
+    // TODO find better solution
+    public Minion leftSoldier;
+    public Minion rightSoldier;
+    public Minion leftDog;
+    public Minion rightDog;
+    public Minion leftRG;
+    public Minion rightRG;
 
-    // the resource to spawn
-    public GameObject resource;
+    // TOWERS
+    public Tower leftTower;
+    public Tower rightTower;
+
+    // UI MEMBERS
+    public TextUI leftResourceCountUI;
+    public TextUI rightResourceCountUI;
+    public TextUI leftTowerHPUI;
+    public TextUI rightTowerHPUI;
+
+    public void updateResourceUI(bool team, int amt) { // TODO fix switching functions
+        if (team) {
+            leftResourceCountUI.updateDisplay(amt);
+        } else {
+            rightResourceCountUI.updateDisplay(amt);
+        }
+    }
+
+     public void updateTowerHPUI(bool team, int hp) {
+        if (team) {
+            leftTowerHPUI.updateDisplay(hp);
+        } else {
+            rightTowerHPUI.updateDisplay(hp);
+        }
+    }
 
     // public functions
     public void registerUnit(Entity unit) {
@@ -57,6 +89,10 @@ public class WorldManager : MonoBehaviour
         timestampOfNextTreeSpawn = Time.time + Random.Range(minTreeSpawnTime, maxTreeSpawnTime);
     }
 
+    private void setNextResourceIncrementTime() {
+        timestampOfNextResourceIncrement = Time.time + timeBetweenResourceIncrements;
+    }
+
     // TODO need a left and right team container of units
     private void Awake()
     {
@@ -75,31 +111,40 @@ public class WorldManager : MonoBehaviour
     void Start() {
         // pick the first tree spawn time
         setNextTreeSpawnTime();
+        setNextResourceIncrementTime();
+
+        // start towers off with starting resources
+        leftTower.depositResource(startingResourceCount);
+        rightTower.depositResource(startingResourceCount);
+
+        // start towers off with the correct amount of health
+        leftTower.grantHealth(startingTowerHealth);
+        rightTower.grantHealth(startingTowerHealth);
     }
 
     // Update is called once per frame
     void Update() {
         // if Q pressed, spawn soldier for red
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            SpawnMinion(leftSoldier, Entity.LEFT_TEAM);
+        if (Input.GetKeyDown(KeyCode.D)) {
+            SpawnLeft(leftSoldier);
         }
-        if (Input.GetKeyDown(KeyCode.E)) {
-            SpawnMinion(rightSoldier, Entity.RIGHT_TEAM);
+        if (Input.GetKeyDown(KeyCode.L)) {
+            SpawnRight(rightSoldier);
         } 
-        // TODO make it easier to register new units
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            SpawnMinion(leftDog, Entity.LEFT_TEAM);
+        // TODO make it easier to register new units as a dev
+        if (Input.GetKeyDown(KeyCode.S)) {
+            SpawnLeft(leftDog);
         }
-        if (Input.GetKeyDown(KeyCode.C)) {
-            SpawnMinion(rightDog, Entity.RIGHT_TEAM);
+        if (Input.GetKeyDown(KeyCode.K)) {
+            SpawnRight(rightDog);
         }
 
         // resource gatherers
         if (Input.GetKeyDown(KeyCode.A)) {
-            SpawnMinion(leftRG, Entity.LEFT_TEAM);
+            SpawnLeft(leftRG);
         }
-        if (Input.GetKeyDown(KeyCode.D)) {
-            SpawnMinion(rightRG, Entity.RIGHT_TEAM);
+        if (Input.GetKeyDown(KeyCode.J)) {
+            SpawnRight(rightRG);
         }
 
         // when the current tree spawn threshhold is hit, spawn and pick the time
@@ -111,11 +156,31 @@ public class WorldManager : MonoBehaviour
 
             setNextTreeSpawnTime();
         }
+
+        // every so often, give each tower some resources
+        if (Time.time >= timestampOfNextResourceIncrement) {
+            leftTower.depositResource(resourceIncrement);
+            rightTower.depositResource(resourceIncrement);
+            
+            setNextResourceIncrementTime();
+        }
+    }
+
+    private void SpawnLeft(Minion prefab) {
+        if (leftTower.withdrawResource(prefab.cost)) {
+            SpawnMinion(prefab, Entity.LEFT_TEAM);
+        }
+    }
+
+    private void SpawnRight(Minion prefab) {
+        if (rightTower.withdrawResource(prefab.cost)) {
+            SpawnMinion(prefab, Entity.RIGHT_TEAM);
+        }
     }
 
     // instantiates a copy of the prefab and sets the team member variable
-    private void SpawnMinion(GameObject prefab, bool team) {
-        GameObject minion = Instantiate(prefab, prefab.transform.position, Quaternion.identity);
+    private void SpawnMinion(Minion prefab, bool team) {
+        GameObject minion = Instantiate(prefab.gameObject, prefab.gameObject.transform.position, Quaternion.identity);
         if (minion != null) {
             minion.GetComponent<Entity>().team = team;
         }
