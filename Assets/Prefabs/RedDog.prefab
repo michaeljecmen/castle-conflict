@@ -120,11 +120,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 1
   rank: -1
-  speed: 4
+  speed: 5.5
   startVector: {x: -8.5, y: -4.25, z: 0}
   endVector: {x: 12, y: -4.25, z: 0}
   cost: 5
-  towerDamage: 1
+  towerDamage: 4
 --- !u!60 &1251206026548530088
 PolygonCollider2D:
   m_ObjectHideFlags: 0

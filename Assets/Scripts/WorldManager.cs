@@ -11,7 +11,7 @@ public class WorldManager : MonoBehaviour
         return instance;
     }
 
-    public int startingTowerHealth;
+    public int maxTowerHealth;
     public int startingResourceCount;
     public float timeBetweenResourceIncrements;
     public int resourceIncrement;
@@ -50,8 +50,17 @@ public class WorldManager : MonoBehaviour
     // UI MEMBERS
     public TextUI leftResourceCountUI;
     public TextUI rightResourceCountUI;
-    public TextUI leftTowerHPUI;
-    public TextUI rightTowerHPUI;
+    public HealthBar leftTowerHPUI;
+    public HealthBar rightTowerHPUI;
+
+
+    // used to turn the gravity of the game over bar on and off,
+    // for engame screens
+    public Gravity gameOverBarGravity;
+
+    public void setGameOverGravity(bool on) {
+        gameOverBarGravity.setGravity(on);
+    }
 
     public void updateResourceUI(bool team, int amt) { // TODO fix switching functions
         if (team) {
@@ -118,8 +127,8 @@ public class WorldManager : MonoBehaviour
         rightTower.depositResource(startingResourceCount);
 
         // start towers off with the correct amount of health
-        leftTower.grantHealth(startingTowerHealth);
-        rightTower.grantHealth(startingTowerHealth);
+        leftTower.grantHealth(maxTowerHealth);
+        rightTower.grantHealth(maxTowerHealth);
     }
 
     // Update is called once per frame

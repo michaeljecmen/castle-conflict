@@ -33,6 +33,8 @@ public class Tower : Entity
         WorldManager.getInstance().updateTowerHPUI(team, health);
         if (health <= 0) {
             // destroy the parent container which houses us
+            // but before we do, trigger the gravity of the gameover object
+            WorldManager.getInstance().setGameOverGravity(true);
             Destroy(gameObject.transform.parent.gameObject);
         }
     }

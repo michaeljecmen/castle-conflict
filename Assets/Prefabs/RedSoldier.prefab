@@ -136,8 +136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 1
   rank: 0
-  speed: 1
+  speed: 1.5
   startVector: {x: -8.5, y: -3.5, z: 0}
   endVector: {x: 12, y: -3.5, z: 0}
   cost: 10
-  towerDamage: 5
+  towerDamage: 10

@@ -122,7 +122,7 @@ MonoBehaviour:
   rank: -10
   speed: 2
   startVector: {x: -8.5, y: -3.9, z: 0}
-  endVector: {x: 8.5, y: -3.9, z: 0}
+  endVector: {x: 12, y: -3.9, z: 0}
   cost: 5
   towerLocation: {x: -8.5, y: -3.9, z: 0}
 --- !u!61 &8425468363141622550
