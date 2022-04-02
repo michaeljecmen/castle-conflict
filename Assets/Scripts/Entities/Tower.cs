@@ -14,7 +14,7 @@ public class Tower : Entity
     // store resource in tower
     public void depositResource(int amt) {
         resourceCount += amt;
-        WorldManager.getInstance().updateResourceUI(team, resourceCount);
+        GameManager.getInstance().getCurrentLevel().updateResourceUI(team, resourceCount);
     }
 
     // return whether or not you had enough resource to withdraw
@@ -23,25 +23,25 @@ public class Tower : Entity
             return false;
         }
         resourceCount -= amt;
-        WorldManager.getInstance().updateResourceUI(team, resourceCount);
+        GameManager.getInstance().getCurrentLevel().updateResourceUI(team, resourceCount);
         return true;
     }
 
     // take the specified amount of damage
     public void takeDamage(int damage) {
         health -= damage;
-        WorldManager.getInstance().updateTowerHPUI(team, health);
+        GameManager.getInstance().getCurrentLevel().updateTowerHPUI(team, health);
         if (health <= 0) {
             // destroy the parent container which houses us
             // but before we do, trigger the gravity of the gameover object
-            WorldManager.getInstance().setGameOverGravity(true);
+            GameManager.getInstance().getCurrentLevel().setGameOverGravity(true);
             Destroy(gameObject.transform.parent.gameObject);
         }
     }
 
     public void grantHealth(int amount) {
         health += amount;
-        WorldManager.getInstance().updateTowerHPUI(team, health);
+        GameManager.getInstance().getCurrentLevel().updateTowerHPUI(team, health);
     }
 
     // if a unit on the other team hits us, we take damage and they die

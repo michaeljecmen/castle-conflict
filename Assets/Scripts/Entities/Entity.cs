@@ -31,7 +31,7 @@ public class Entity : MonoBehaviour
 
     // destroys the entity and deregisters it from the worldobject
     protected void DestroyEntity() {
-        WorldManager.getInstance().destroyUnit(this);
+        GameManager.getInstance().getCurrentLevel().destroyUnit(this);
         Destroy(gameObject);
     }
 }

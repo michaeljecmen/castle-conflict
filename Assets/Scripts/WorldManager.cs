@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-    // static members
-    private static WorldManager instance;
-    public static WorldManager getInstance() // TODO disable copying/moving
-    {
-        return instance;
-    }
+    private bool live = false;
 
     public int maxTowerHealth;
     public int startingResourceCount;
@@ -31,11 +26,11 @@ public class WorldManager : MonoBehaviour
     // will be set in start
     private float timestampOfNextTreeSpawn;
 
-    // per-object members
+    // per-object members TODO assess if used (currently will be used if ranged minions)
     private Hashtable leftTeamUnits = new Hashtable();
     private Hashtable rightTeamUnits = new Hashtable();
 
-    // TODO find better solution
+    // TODO remove and put in gamemanager as the master list
     public Minion leftSoldier;
     public Minion rightSoldier;
     public Minion leftDog;
@@ -52,6 +47,7 @@ public class WorldManager : MonoBehaviour
     public TextUI rightResourceCountUI;
     public HealthBar leftTowerHPUI;
     public HealthBar rightTowerHPUI;
+    public GameObject spawnButtonPrefab;
 
 
     // used to turn the gravity of the game over bar on and off,
@@ -102,22 +98,25 @@ public class WorldManager : MonoBehaviour
         timestampOfNextResourceIncrement = Time.time + timeBetweenResourceIncrements;
     }
 
-    // TODO need a left and right team container of units
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            // defensive programming, in case multiple singletons spawned (cleanup from previous game not happened)
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
+    // TODO need a left and right team container of unit
+
+    // TODO remove this when the gamemanager actually is in charge of loading the scene
+    void Start() {
+        go();
     }
 
-    // Start is called before the first frame update
-    void Start() {
+    public void go() {
+        live = true;
+
+        // get loadout from gamemanager and create the buttons for left team
+        Minion[] loadout = GameManager.getInstance().getLoadout();
+
+        for (int i = 0; i < loadout.Length; i++) {
+            GameObject button = Instantiate(spawnButtonPrefab.gameObject, spawnButtonPrefab.gameObject.transform.position, Quaternion.identity);
+            button.GetComponent<SpawnButton>().instantiate(loadout[i], i);
+            // TODO spawn in canvas
+        }
+
         // pick the first tree spawn time
         setNextTreeSpawnTime();
         setNextResourceIncrementTime();
@@ -133,27 +132,30 @@ public class WorldManager : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+        if (!live) {
+            return;
+        }
         // if Q pressed, spawn soldier for red
         if (Input.GetKeyDown(KeyCode.D)) {
-            SpawnLeft(leftSoldier);
+            spawnLeft(leftSoldier);
         }
         if (Input.GetKeyDown(KeyCode.L)) {
-            SpawnRight(rightSoldier);
+            spawnRight(rightSoldier);
         } 
         // TODO make it easier to register new units as a dev
         if (Input.GetKeyDown(KeyCode.S)) {
-            SpawnLeft(leftDog);
+            spawnLeft(leftDog);
         }
         if (Input.GetKeyDown(KeyCode.K)) {
-            SpawnRight(rightDog);
+            spawnRight(rightDog);
         }
 
         // resource gatherers
         if (Input.GetKeyDown(KeyCode.A)) {
-            SpawnLeft(leftRG);
+            spawnLeft(leftRG);
         }
         if (Input.GetKeyDown(KeyCode.J)) {
-            SpawnRight(rightRG);
+            spawnRight(rightRG);
         }
 
         // when the current tree spawn threshhold is hit, spawn and pick the time
@@ -175,20 +177,20 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    private void SpawnLeft(Minion prefab) {
+    public void spawnLeft(Minion prefab) {
         if (leftTower.withdrawResource(prefab.cost)) {
-            SpawnMinion(prefab, Entity.LEFT_TEAM);
+            spawnMinion(prefab, Entity.LEFT_TEAM);
         }
     }
 
-    private void SpawnRight(Minion prefab) {
+    private void spawnRight(Minion prefab) {
         if (rightTower.withdrawResource(prefab.cost)) {
-            SpawnMinion(prefab, Entity.RIGHT_TEAM);
+            spawnMinion(prefab, Entity.RIGHT_TEAM);
         }
     }
 
     // instantiates a copy of the prefab and sets the team member variable
-    private void SpawnMinion(Minion prefab, bool team) {
+    private void spawnMinion(Minion prefab, bool team) {
         GameObject minion = Instantiate(prefab.gameObject, prefab.gameObject.transform.position, Quaternion.identity);
         if (minion != null) {
             minion.GetComponent<Entity>().team = team;
