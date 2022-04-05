@@ -13,10 +13,6 @@ public class SpawnButton : MonoBehaviour
     // the minion prefab this button will spawn
     public Minion prefab;
 
-    void Start() {
-        // TODO set width and height
-    }
-
     // step 1: make this button a prefab with a constructor which takes in a minion
     // step 2: button onclick sends self (the game object) to the worldmanager, which
     //         looks at the minion that this script controls and spawnLeft()s it
@@ -24,22 +20,33 @@ public class SpawnButton : MonoBehaviour
     // step 4: do button gray out shit
 
     // call this method after the prefab has been instantiated
-    public void instantiate(Minion m, int i) {
-        // first set the minion text and image
+    public void initialize(Minion m, int i) {
         prefab = m;
-        GetComponent<Image>().sprite = prefab.GetComponent<SpriteRenderer>().sprite;
-        GetComponent<Text>().text = prefab.cost.ToString(); // TODO text is child
+
+        // set the minion image and text
+        Button button = GetComponentInChildren<Button>();
+        button.GetComponent<Image>().sprite = prefab.GetComponent<SpriteRenderer>().sprite;
+
+        Text text = GetComponentInChildren<Text>();
+        text.text = prefab.cost.ToString();
+
+        // set our transform parent to be the canvas
+        Canvas canvas = GameManager.getInstance().getCurrentLevel().getCanvas();
+        gameObject.transform.SetParent(canvas.transform, false);
+
+        RectTransform rect = button.transform as RectTransform;
+        rect.sizeDelta = new Vector2(WIDTH, HEIGHT);
 
         // and the index we were given, offset this button's x
         // pos by another WIDTH + buffer units
-        RectTransform rect = gameObject.transform as RectTransform;
-        Vector2 position = rect.anchoredPosition;
-        float startingX = position.x + WIDTH + BUFFER; // TODO does not work
-        rect.anchoredPosition = new Vector2(startingX, position.y);
+        Vector3 position = gameObject.transform.position;
+        float startingX = position.x + i*(WIDTH + BUFFER);
+        gameObject.transform.position = new Vector3(startingX, position.y, position.z);
+        Debug.Log("expected: " + startingX);
+        Debug.Log("got: " + gameObject.transform.position.x);
 
-        // set our transform parent to be the canvas
-        RectTransform canvasRect = GetComponentInParent<Canvas>().transform as RectTransform;
-        transform.SetParent(canvasRect);
+        // TODO change text x pos to be half width ish
+        // change text y pos to be minus height plus some
     }
 
     // TODO possibly be notified when tower gains/uses mana so we can 
