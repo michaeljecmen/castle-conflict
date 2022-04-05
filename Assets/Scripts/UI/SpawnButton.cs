@@ -31,7 +31,7 @@ public class SpawnButton : MonoBehaviour
         text.text = prefab.cost.ToString();
 
         // set our transform parent to be the canvas
-        Canvas canvas = GameManager.getInstance().getCurrentLevel().getCanvas();
+        Canvas canvas = WorldManager.getInstance().getCanvas();
         gameObject.transform.SetParent(canvas.transform, false);
 
         RectTransform rect = button.transform as RectTransform;
@@ -49,6 +49,6 @@ public class SpawnButton : MonoBehaviour
 
     // called when button clicked
     public void spawnMinionForLeftTeam() {
-        GameManager.getInstance().getCurrentLevel().spawnLeft(prefab);
+        WorldManager.getInstance().spawnLeft(prefab);
     }
 }

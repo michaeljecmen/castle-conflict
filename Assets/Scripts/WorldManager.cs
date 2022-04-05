@@ -2,8 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldManager : MonoBehaviour
-{
+public class WorldManager : MonoBehaviour {
+
+    private static WorldManager instance;
+    public static WorldManager getInstance() {
+        return instance;
+    }
+    private void Awake() {
+        if (instance != null && instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            instance = this;
+        }
+    }
+    
     private bool live = false;
 
     public int maxTowerHealth;
@@ -103,8 +115,6 @@ public class WorldManager : MonoBehaviour
     }
 
     // TODO need a left and right team container of unit
-
-    // TODO remove this when the gamemanager actually is in charge of loading the scene
     void Start() {
         go();
     }

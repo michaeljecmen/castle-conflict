@@ -38,7 +38,7 @@ public class Minion : Entity
     // register the object with the worldmanager and set movement info
     void Start() {
         // team should already be registered at this point
-        GameManager.getInstance().getCurrentLevel().registerUnit(this);
+        WorldManager.getInstance().registerUnit(this);
 
         // ensure the soldier is never seen in the middle
         transform.position = startVector;
