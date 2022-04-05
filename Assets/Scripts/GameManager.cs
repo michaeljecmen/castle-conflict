@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,14 +15,12 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
+        if (instance != null && instance != this) {
             // defensive programming, in case multiple singletons spawned (cleanup from previous game not happened)
             Destroy(this.gameObject);
-        }
-        else
-        {
+        } else {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -30,14 +29,13 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start() {
+        // on start, load the main menu
+
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         
     }
 
@@ -49,14 +47,11 @@ public class GameManager : MonoBehaviour
         return loadout;
     }
 
-    // TODO: this function should
     // create a worldmanager object for the given level
     // change the scene to a level scene and tell worldmanager "go"
     public void createLevel() {
         currentLevel = new WorldManager();
-
-        // TODO change scene to "level scene"
-
+        SceneManager.LoadScene("Level", LoadSceneMode.Additive);
         // at very end, start the world
         currentLevel.go();
     }

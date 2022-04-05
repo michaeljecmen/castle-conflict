@@ -116,10 +116,8 @@ public class WorldManager : MonoBehaviour
         Minion[] loadout = GameManager.getInstance().getLoadout();
 
         for (int i = 0; i < loadout.Length; i++) {
-            Debug.Log("prefabx: " + spawnButtonPrefab.gameObject.transform.position.x);
             GameObject button = Instantiate(spawnButtonPrefab.gameObject, spawnButtonPrefab.gameObject.transform.position, Quaternion.identity);
             button.GetComponent<SpawnButton>().initialize(loadout[i], i);
-            Debug.Log("createdx: " + button.gameObject.transform.position.x); // TODO make the spawnbutton script be on the button, have an image child and a text child
         }
 
         // pick the first tree spawn time

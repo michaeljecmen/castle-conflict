@@ -24,8 +24,8 @@ public class SpawnButton : MonoBehaviour
         prefab = m;
 
         // set the minion image and text
-        Button button = GetComponentInChildren<Button>();
-        button.GetComponent<Image>().sprite = prefab.GetComponent<SpriteRenderer>().sprite;
+        Button button = GetComponent<Button>();
+        button.GetComponentInChildren<Image>().sprite = prefab.GetComponent<SpriteRenderer>().sprite;
 
         Text text = GetComponentInChildren<Text>();
         text.text = prefab.cost.ToString();
@@ -39,14 +39,9 @@ public class SpawnButton : MonoBehaviour
 
         // and the index we were given, offset this button's x
         // pos by another WIDTH + buffer units
-        Vector3 position = gameObject.transform.position;
-        float startingX = position.x + i*(WIDTH + BUFFER);
-        gameObject.transform.position = new Vector3(startingX, position.y, position.z);
-        Debug.Log("expected: " + startingX);
-        Debug.Log("got: " + gameObject.transform.position.x);
-
-        // TODO change text x pos to be half width ish
-        // change text y pos to be minus height plus some
+        Vector2 buttonPos = rect.anchoredPosition;
+        float startingX = buttonPos.x + i*(WIDTH + BUFFER);
+        rect.anchoredPosition = new Vector2(startingX, buttonPos.y);
     }
 
     // TODO possibly be notified when tower gains/uses mana so we can 
@@ -54,7 +49,6 @@ public class SpawnButton : MonoBehaviour
 
     // called when button clicked
     public void spawnMinionForLeftTeam() {
-
         GameManager.getInstance().getCurrentLevel().spawnLeft(prefab);
     }
 }
