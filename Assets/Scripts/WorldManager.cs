@@ -61,7 +61,6 @@ public class WorldManager : MonoBehaviour {
     public HealthBar rightTowerHPUI;
     public GameObject spawnButtonPrefab;
 
-
     // used to turn the gravity of the game over bar on and off,
     // for engame screens
     public Gravity gameOverBarGravity;
@@ -69,6 +68,8 @@ public class WorldManager : MonoBehaviour {
     [SerializeField]
     private Canvas canvas;
     public Canvas getCanvas() { return canvas; }
+
+    public Path groundUnitPath;
 
     public void setGameOverGravity(bool on) {
         gameOverBarGravity.setGravity(on);
