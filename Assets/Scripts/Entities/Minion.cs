@@ -9,30 +9,62 @@ public class Minion : Entity
 
     // movement speed in units per second.
     public float speed = 1.0F;
-
-    // transforms to act as start and end markers for the journey.
-    public Vector3 startVector;
-    public Vector3 endVector;
+    // based on speed and path length, the time it should take to cross the map
+    private float timeToCross;
 
     // time when the movement started.
     private float startTime;
 
-    // total distance between the markers.
-    private float journeyLength;
+    // time when the unit turned around
+    private float turnTime;
+
+    // whether or not this unit is going forward or backward
+    // TODO put in intermediate class bidirectionalmover
+    // same with turnBack(), only specific minions will need these
+    private bool movingForward = true;
+
+    // TODO put in Ydelta member so we can normalize how things appear on our curve
 
     // cost of this unit, in resources
     public int cost;
 
-    // sets the destination from the current position to be the dest
-    protected void setDestination(Vector3 dest) {
-        endVector = dest;
-        startVector = transform.position;
-
-        // Keep a note of the time the movement started.
-        startTime = Time.time;
-
-        // Calculate the journey length.
-        journeyLength = Vector3.Distance(transform.position, dest);
+    /*  if we turned around, we're going to be at 1-fraction
+     *  on the next frame. we need to make sure our elapsed
+     *  measurement has changed so that our previous fraction
+     *  equals the current invocation's 1-fraction
+     *  prevFraction = (Time.time - startTime) / timeToCross
+     *
+     *  prevFraction = 1 - ((Time.time - X) / timeToCross)
+     *  solve for X
+     *
+     *  ((Time.time - X) / timeToCross) = 1 - prevFraction
+     *  Time.time - X = (1 - prevFraction) * timeToCross
+     *  Time.time - (1 - prevFraction) * timeToCross  = X
+     *
+     *  simplify
+     *  Time.time - (1 - ((Time.time - startTime) / timeToCross)) * timeToCross = X
+     *  Time.time - (timeToCross - (Time.time - startTime)) = X
+     *  Time.time - (timeToCross + startTime - Time.time) = X
+     *  2*Time.time - timeToCross - startTime = X
+     *   
+     *  check our work: set startTime equal to X and see if prevFraction = 1-fraction
+     *  prevFraction = (Time.time - startTime) / timeToCross
+     *  1 - fraction = 1 - ((Time.time - X) / timeToCross)
+     *  1 - fraction = 1 - ((Time.time - (2*Time.time - timeToCross - startTime)) / timeToCross)
+     *  1 - fraction = 1 - ((-Time.time + timeToCross + startTime) / timeToCross)
+     *  1 - fraction = (timeToCross/timeToCross) - ((-Time.time + timeToCross + startTime) / timeToCross)
+     *  1 - fraction = (Time.time - startTime) / timeToCross
+     *  1 - fraction == prevFraction
+     *  nice!
+     *
+     *  so set startTime equal to the value which will give us the correct
+     *  1-fraction on the next update call
+     */
+    protected void turnBack() {
+        // TODO flip the sprite here too
+        movingForward = false;
+        turnTime = Time.time;
+        startTime = 2*Time.time - timeToCross - startTime;
     }
    
     // register the object with the worldmanager and set movement info
@@ -40,20 +72,27 @@ public class Minion : Entity
         // team should already be registered at this point
         WorldManager.getInstance().registerUnit(this);
 
-        // ensure the soldier is never seen in the middle
-        transform.position = startVector;
-        setDestination(endVector);
+        // set our time to cross
+        timeToCross = WorldManager.getInstance().groundUnitPath.getLength() / speed;
+
+        // init startTime and start moving
+        startTime = Time.time;
     }
 
     // moves the object the appropriate distance to the end
     void Update() {
-        // Distance moved equals elapsed time times speed..
-        float distCovered = (Time.time - startTime) * speed;
+        // to make the math easier, assume moving RIGHT until the end of this function
+        // when the direction will be accounted for
+        float elapsed = Time.time - startTime;
 
-        // Fraction of journey completed equals current distance divided by total distance.
-        float fractionOfJourney = distCovered / journeyLength;
+        float fractionOfJourney = elapsed / timeToCross;
 
-        // Set our position as a fraction of the distance between the markers.
-        transform.position = Vector3.Lerp(startVector, endVector, fractionOfJourney);
+        bool movingRight = (team == Entity.LEFT_TEAM) == movingForward;
+        if (!movingRight) {
+            fractionOfJourney = 1-fractionOfJourney;
+        }
+
+        // set our position as a fraction of the distance between the markers
+        transform.position = WorldManager.getInstance().groundUnitPath.getPos(fractionOfJourney);
     }
 }

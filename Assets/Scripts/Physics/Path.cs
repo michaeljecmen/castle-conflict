@@ -12,65 +12,44 @@ using System;
  * For now, b is fixed at 0 because that makes the math actually doable.
  */
 public class Path : MonoBehaviour {
-    public float a;
-    public float c;
-    public float startX;
-    public float stopX;
-    public int integralAccuracy;
-    private float xLen;
+    // public float a;
+    // public float c;
+    // public float startX;
+    // public float stopX;
+    // public int integralAccuracy;
+    // private float xLen;
+
+    public Vector3 p0;
+    public Vector3 p1;
+    public Vector3 p2;
+    public Vector3 p3;
+
+    private float length;
 
     void Start() {
-        xLen = stopX - startX;
-
-        // compute total arc length of journey
-        // s = integral(a, b) over sqrt(1 + (f'(x))^2) dx
-
-        // wolfram alpha that and we can simplify to 
-        // s = (1/a) integral(a,b) over sec^3(u) du
-        // where u = tan inverse(ax)
-        // simplifies to (1/2a)(secutanu + ln|secu + tanu|)
-        // secu = sec(tan inverse(ax)) = sqrt(a^2x^2 + 1)
-        // tanu = tan(tan inverse(ax)) = ax
-
-        // s = (1/2a)((ax)sqrt(a^2x^2 + 1) + ln|sqrt(a^2x^2 + 1) + ax|)
-        // now do it from startX to stopX
-
-        xLen = computeArcLength(a, c, startX, stopX, integralAccuracy);
+        // only do the length calculations once
+        // from https://stackoverflow.com/questions/29438398/cheap-way-of-calculating-cubic-bezier-length
+        float chord = Vector3.Distance(p3, p0);
+        float cont_net = Vector3.Distance(p0, p1) + Vector3.Distance(p2, p1) + Vector3.Distance(p3, p2);
+        length = (cont_net + chord) / 2;
     }
 
-    public float getX(float fractionOfJourney) {
-        return (xLen * fractionOfJourney) + startX;
+    // returns the total path length for this curve
+    public float getLength() {
+        return length;
     }
 
-    public float getY(float x) {
-        return a*x*x + c;
+    // pass in t in range [0, 1] and get point along curve
+    public Vector3 getPos(float t) {     
+        float r = 1f - t;
+        float f0 = r * r * r;
+        float f1 = r * r * t * 3;
+        float f2 = r * t * t * 3;
+        float f3 = t * t * t;
+         return new Vector3(
+            f0*p0.x + f1*p1.x + f2*p2.x + f3*p3.x,
+            f0*p0.y + f1*p1.y + f2*p2.y + f3*p3.y,
+            f0*p0.z + f1*p1.z + f2*p2.z + f3*p3.z
+        );
     }
-
-    // estimates an arc length of a quadratic equation using the rectangle area method
-    // increase grain to increase accuracy. assume b is zero for now.
-    private float computeArcLength(float a, float c, float xStart, float xStop, int grain) {
-        float xp, y, s, result = 0, g = (xStop - xStart) / grain;
-        for (int i = 0; i < grain; i++) {
-            xp = xStart + g;
-            // y = (a * Math.Pow(xp, 2)) + (b * xp) + c;
-            // instead of calculating integral over y = ax2 + bx + c,
-            // compute over sqrt(1 + (f'(x))^2)
-            y = (float) Math.Sqrt(1 + 4*a*a);
-
-            s = g * y;
-            result += s;
-        }
-        return result;
-    }
-
-    // TODO idea:
-    // make the minion just have a direction bool (toward or away)
-    // and the speed is now "amount of time to cross map"
-    // then, the fraction of journey is easy -- it's just time elapsed over time to cross
-    // then make a turn around function which sets dest back to home tower
-    // and all we have to do is use the normalized equation for arc length
-    // try parametric quadratic equation? x and y in terms of t?
-    // https://www.math-only-math.com/parametric-equations-of-a-parabola.html
-    // and add constant C to all ys
-    // and in minion use a deltaY to offset each position y based on sprite height
 }

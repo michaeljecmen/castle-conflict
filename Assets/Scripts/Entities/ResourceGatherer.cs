@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResourceGatherer : Minion
 {
-    public Vector3 towerLocation;
+    public Vector3 towerLocation; // todo REMOVE
     private int carriedValue = 0;
 
     public bool isCarrying() {
@@ -22,7 +22,7 @@ public class ResourceGatherer : Minion
             resource.onCollected();
 
             // now work back towards our tower
-            setDestination(towerLocation);
+            turnBack();
         }
 
         // if we are carriedValue and we collide with the tower, deposit resources and destroy ourselves
