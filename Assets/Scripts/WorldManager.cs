@@ -27,9 +27,8 @@ public class WorldManager : MonoBehaviour {
     // the resource to spawn
     public GameObject resource;
 
-    // trees will spawn in a range up to X units out from the center
+    // trees will spawn in a range up to X % out from the center
     public float treeSpawnRadius;
-    public float treeSpawnHeight;
 
     // max and min amount of time between tree spawns
     public float minTreeSpawnTime = 2.0F;
@@ -38,11 +37,9 @@ public class WorldManager : MonoBehaviour {
     // will be set in start
     private float timestampOfNextTreeSpawn;
 
-    // per-object members TODO assess if used (currently will be used if ranged minions)
+    // per-object members
     private Hashtable leftTeamUnits = new Hashtable();
     private Hashtable rightTeamUnits = new Hashtable();
-
-    // TODO remove and put in gamemanager as the master list
     public Minion leftSoldier;
     public Minion rightSoldier;
     public Minion leftDog;
@@ -75,7 +72,7 @@ public class WorldManager : MonoBehaviour {
         gameOverBarGravity.setGravity(on);
     }
 
-    public void updateResourceUI(bool team, int amt) { // TODO fix switching functions
+    public void updateResourceUI(bool team, int amt) {
         if (team) {
             leftResourceCountUI.updateDisplay(amt);
         } else {
@@ -115,7 +112,6 @@ public class WorldManager : MonoBehaviour {
         timestampOfNextResourceIncrement = Time.time + timeBetweenResourceIncrements;
     }
 
-    // TODO need a left and right team container of unit
     void Start() {
         go();
     }
@@ -156,7 +152,7 @@ public class WorldManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.L)) {
             spawnRight(rightSoldier);
         } 
-        // TODO make it easier to register new units as a dev
+
         if (Input.GetKeyDown(KeyCode.S)) {
             spawnLeft(leftDog);
         }
@@ -175,9 +171,12 @@ public class WorldManager : MonoBehaviour {
         // when the current tree spawn threshhold is hit, spawn and pick the time
         // for the next spawn
         if (Time.time >= timestampOfNextTreeSpawn) {
-            // actually spawn the tree
-            float treeX = Random.Range(-1F * treeSpawnRadius, treeSpawnRadius);
-            Instantiate(resource, new Vector3(treeX, treeSpawnHeight, 0F), Quaternion.identity);
+            // actually spawn the tree as a range of percents out from 50
+            float t = Random.Range(.5f - treeSpawnRadius, treeSpawnRadius + .5f);
+
+            // need to spawn the tree with the root touching the ground, so need height for that
+            Vector3 treePos = groundUnitPath.getPos(t);
+            Instantiate(resource, new Vector3(treePos.x, treePos.y, treePos.z), Quaternion.identity);
 
             setNextTreeSpawnTime();
         }
@@ -205,7 +204,9 @@ public class WorldManager : MonoBehaviour {
 
     // instantiates a copy of the prefab and sets the team member variable
     private void spawnMinion(Minion prefab, bool team) {
-        GameObject minion = Instantiate(prefab.gameObject, prefab.gameObject.transform.position, Quaternion.identity);
+        // spawn all minions offscreen
+        const float OFFSCREEN = 1000f;
+        GameObject minion = Instantiate(prefab.gameObject, new Vector3(OFFSCREEN, OFFSCREEN, 1), Quaternion.identity);
         if (minion != null) {
             minion.GetComponent<Entity>().team = team;
         }

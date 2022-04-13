@@ -56,7 +56,5 @@ public class Tower : Entity
             // we take damage here
             takeDamage(otherAttackUnit.towerDamage);
         }
-
-        // TODO when different unit types hit do diff things (e.g. thief)
     }
 }

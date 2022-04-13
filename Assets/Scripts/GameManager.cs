@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public Minion[] masterMinionList;
-    public Minion[] loadout;
+    public int maxLoadoutSize;
+    private int currentLoadoutSize = 0;
+    public Minion[] loadout; // TODO make this private once it works
+    public GameObject loadoutMinionButton;
     public static GameManager getInstance() {
         return instance;
     }
@@ -21,10 +24,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void setLoadout(Minion[] list) {
-        // TODO when the units are selected in the "choose your loadout" screen,
-        // call this function before creating the level
+    void Start() {
+        // start everything as null so the loadout selector 
+        // can recognize the empty slots
+        loadout = new Minion[maxLoadoutSize];
+        for (int i = 0; i < maxLoadoutSize; ++i) {
+            loadout[i] = null;
+        }
     }
+
+    // put in first null location
+    public void addToLoadout(Minion minion) {
+        for (int i = 0; i < currentLoadoutSize; ++i) {
+            // TODO try with loadout[i] == minion
+            if (loadout[i] == null) {
+                loadout[i] = minion;
+                currentLoadoutSize++;
+                return;
+            }
+        }
+    }
+    
+    public void removeFromLoadout(Minion minion) {
+        for (int i = 0; i < currentLoadoutSize; ++i) {
+            // TODO try with loadout[i] == minion
+            if (loadout[i].gameObject.name == minion.gameObject.name) {
+                loadout[i] = null;
+                currentLoadoutSize--;
+                return;
+            }
+        }
+    }
+
     public Minion[] getLoadout() {
         return loadout;
     }

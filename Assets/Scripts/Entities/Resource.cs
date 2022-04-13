@@ -12,6 +12,13 @@ public class Resource : MonoBehaviour
     private float startTime;
 
     void Start() {
+        // set scale to endscale for a second so we can set the 
+        // halfheight to be that of the full grown tree
+        transform.localScale = endScale;
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+        float halfHeight = sprite.bounds.size.y/2;
+        transform.position = new Vector3(transform.position.x, transform.position.y + halfHeight, transform.position.z);
+
         startTime = Time.time;
         transform.localScale = startScale;
     }

@@ -19,14 +19,18 @@ public class Minion : Entity
     private float turnTime;
 
     // whether or not this unit is going forward or backward
-    // TODO put in intermediate class bidirectionalmover
-    // same with turnBack(), only specific minions will need these
     private bool movingForward = true;
-
-    // TODO put in Ydelta member so we can normalize how things appear on our curve
 
     // cost of this unit, in resources
     public int cost;
+
+    // distance from middle of sprite to feet
+    // used when drawing to ensure all minions
+    // walk with their feet touching the path,
+    // not their centers. can be automatically set
+    // by getting the true height from the sprite
+    // renderer component
+    private float halfHeight;
 
     /*  if we turned around, we're going to be at 1-fraction
      *  on the next frame. we need to make sure our elapsed
@@ -61,7 +65,6 @@ public class Minion : Entity
      *  1-fraction on the next update call
      */
     protected void turnBack() {
-        // TODO flip the sprite here too
         movingForward = false;
         turnTime = Time.time;
         startTime = 2*Time.time - timeToCross - startTime;
@@ -74,6 +77,10 @@ public class Minion : Entity
 
         // set our time to cross
         timeToCross = WorldManager.getInstance().groundUnitPath.getLength() / speed;
+
+        // set our height so we spawn with our feet in the right spot
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+        halfHeight = sprite.bounds.size.y/2;
 
         // init startTime and start moving
         startTime = Time.time;
@@ -93,6 +100,9 @@ public class Minion : Entity
         }
 
         // set our position as a fraction of the distance between the markers
-        transform.position = WorldManager.getInstance().groundUnitPath.getPos(fractionOfJourney);
+        Vector3 pos = WorldManager.getInstance().groundUnitPath.getPos(fractionOfJourney);
+
+        // first increment our y by halfheight so we walk on the path, not float on it
+        transform.position = new Vector3(pos.x, pos.y + halfHeight, pos.z);
     }
 }

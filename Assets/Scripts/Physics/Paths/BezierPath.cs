@@ -4,25 +4,15 @@ using UnityEngine;
 using System;
 
 /**
- * Paths units take are represented by a function and a float value from 0 to 1.
- * Paths are functions with endpoints, and the fraction of the journey plus
- * a path function yields an exact position. Paths are per-level state.
- * 
- * Takes in a function y = ax^2 + bx + c, and a range of x values to consider.
- * For now, b is fixed at 0 because that makes the math actually doable.
+ * Given a p0 p1 p2 and p3, generate a Bezier curve and 
+ * provide access to the location of an object along
+ * the curve at time t from [0, 1].
  */
-public class Path : MonoBehaviour {
-    // public float a;
-    // public float c;
-    // public float startX;
-    // public float stopX;
-    // public int integralAccuracy;
-    // private float xLen;
-
-    public Vector3 p0;
-    public Vector3 p1;
-    public Vector3 p2;
-    public Vector3 p3;
+public class BezierPath : Path {
+    public Vector3 p0 = new Vector3(-8, 3, 0);
+    public Vector3 p1 = new Vector3(-7, -4, 0);
+    public Vector3 p2 = new Vector3(7, -4, 0);
+    public Vector3 p3 = new Vector3(8, -3, 0);
 
     private float length;
 
@@ -35,18 +25,18 @@ public class Path : MonoBehaviour {
     }
 
     // returns the total path length for this curve
-    public float getLength() {
+    public override float getLength() {
         return length;
     }
 
     // pass in t in range [0, 1] and get point along curve
-    public Vector3 getPos(float t) {     
+    public override Vector3 getPos(float t) {     
         float r = 1f - t;
         float f0 = r * r * r;
         float f1 = r * r * t * 3;
         float f2 = r * t * t * 3;
         float f3 = t * t * t;
-         return new Vector3(
+        return new Vector3(
             f0*p0.x + f1*p1.x + f2*p2.x + f3*p3.x,
             f0*p0.y + f1*p1.y + f2*p2.y + f3*p3.y,
             f0*p0.z + f1*p1.z + f2*p2.z + f3*p3.z

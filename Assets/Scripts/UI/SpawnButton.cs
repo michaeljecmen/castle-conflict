@@ -44,9 +44,6 @@ public class SpawnButton : MonoBehaviour
         rect.anchoredPosition = new Vector2(startingX, buttonPos.y);
     }
 
-    // TODO possibly be notified when tower gains/uses mana so we can 
-    // gray out the buttons
-
     // called when button clicked
     public void spawnMinionForLeftTeam() {
         WorldManager.getInstance().spawnLeft(prefab);
