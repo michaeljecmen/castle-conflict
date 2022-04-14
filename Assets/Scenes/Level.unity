@@ -509,7 +509,6 @@ MonoBehaviour:
   rightTowerHPUI: {fileID: 1831207561}
   spawnButtonPrefab: {fileID: 1924229665335801648, guid: 867bf4f30f8ad6744b08a78c92e16b74, type: 3}
   gameOverBarGravity: {fileID: 132323473}
-  canvas: {fileID: 306490075}
   groundUnitPath: {fileID: 664747096}
 --- !u!1 &306490072
 GameObject:
@@ -752,6 +751,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6000511904196525737, guid: ccfac964b33d7a749a972d01e44786e7, type: 3}
   m_PrefabInstance: {fileID: 557749004}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &664627782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 664627784}
+  - component: {fileID: 664627783}
+  m_Layer: 0
+  m_Name: CanvasRefHub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &664627783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664627782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d690a27ab0f317e45a4d61e9c86bffa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 306490075}
+--- !u!4 &664627784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664627782}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &664747095
 GameObject:
   m_ObjectHideFlags: 0

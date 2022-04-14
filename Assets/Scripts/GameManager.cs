@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     private static GameManager instance;
     public Minion[] masterMinionList;
-    public int maxLoadoutSize;
-    private int currentLoadoutSize = 0;
-    public Minion[] loadout; // TODO make this private once it works
-    public GameObject loadoutMinionButton;
+    public int loadoutSize;
+    private Minion[] loadout;
+
     public static GameManager getInstance() {
         return instance;
     }
+
     private void Awake() {
         if (instance != null && instance != this) {
             // defensive programming, in case multiple singletons spawned (cleanup from previous game not happened)
@@ -27,37 +26,24 @@ public class GameManager : MonoBehaviour
     void Start() {
         // start everything as null so the loadout selector 
         // can recognize the empty slots
-        loadout = new Minion[maxLoadoutSize];
-        for (int i = 0; i < maxLoadoutSize; ++i) {
+        loadout = new Minion[loadoutSize];
+        for (int i = 0; i < loadoutSize; ++i) {
             loadout[i] = null;
         }
     }
 
-    // put in first null location
-    public void addToLoadout(Minion minion) {
-        for (int i = 0; i < currentLoadoutSize; ++i) {
-            // TODO try with loadout[i] == minion
-            if (loadout[i] == null) {
-                loadout[i] = minion;
-                currentLoadoutSize++;
-                return;
-            }
-        }
-    }
-    
-    public void removeFromLoadout(Minion minion) {
-        for (int i = 0; i < currentLoadoutSize; ++i) {
-            // TODO try with loadout[i] == minion
-            if (loadout[i].gameObject.name == minion.gameObject.name) {
-                loadout[i] = null;
-                currentLoadoutSize--;
-                return;
-            }
-        }
+    public Minion[] getMasterMinionList() {
+        return masterMinionList;
     }
 
+    public int getLoadoutSize() {
+        return loadoutSize;
+    }
     public Minion[] getLoadout() {
         return loadout;
+    }
+    public void setLoadout(Minion[] load) {
+        loadout = load;
     }
 
     // create a worldmanager object for the given level

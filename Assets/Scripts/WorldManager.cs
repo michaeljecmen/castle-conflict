@@ -62,10 +62,6 @@ public class WorldManager : MonoBehaviour {
     // for engame screens
     public Gravity gameOverBarGravity;
 
-    [SerializeField]
-    private Canvas canvas;
-    public Canvas getCanvas() { return canvas; }
-
     public Path groundUnitPath;
 
     public void setGameOverGravity(bool on) {
@@ -124,7 +120,9 @@ public class WorldManager : MonoBehaviour {
 
         for (int i = 0; i < loadout.Length; i++) {
             GameObject button = Instantiate(spawnButtonPrefab.gameObject, spawnButtonPrefab.gameObject.transform.position, Quaternion.identity);
-            button.GetComponent<SpawnButton>().initialize(loadout[i], i);
+            SpawnButton sb = button.GetComponent<SpawnButton>();
+            sb.initialize(loadout[i]);
+            sb.setPosition(i);
         }
 
         // pick the first tree spawn time
