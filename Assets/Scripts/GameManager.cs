@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public Minion[] masterMinionList;
     public int loadoutSize;
     private Minion[] loadout;
+    public Minion[] defaultLoadout;
 
     public static GameManager getInstance() {
         return instance;
@@ -20,15 +21,6 @@ public class GameManager : MonoBehaviour {
         } else {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
-    }
-
-    void Start() {
-        // start everything as null so the loadout selector 
-        // can recognize the empty slots
-        loadout = new Minion[loadoutSize];
-        for (int i = 0; i < loadoutSize; ++i) {
-            loadout[i] = null;
         }
     }
 

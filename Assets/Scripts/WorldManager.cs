@@ -50,17 +50,19 @@ public class WorldManager : MonoBehaviour {
     // TOWERS
     public Tower leftTower;
     public Tower rightTower;
+    public List<MinionSpawnListener> leftMinionSpawnListeners = new List<MinionSpawnListener>();
+    public List<MinionSpawnListener> rightMinionSpawnListeners = new List<MinionSpawnListener>();
 
     // UI MEMBERS
-    public TextUI leftResourceCountUI;
-    public TextUI rightResourceCountUI;
+    public ResourceCountUI leftResourceCountUI;
+    public ResourceCountUI rightResourceCountUI;
     public HealthBar leftTowerHPUI;
     public HealthBar rightTowerHPUI;
     public GameObject spawnButtonPrefab;
 
     // used to turn the gravity of the game over bar on and off,
     // for engame screens
-    public Gravity gameOverBarGravity;
+    public Gravity gameOverBarGravity; // TODO figure out why text and health bar not updating
 
     public Path groundUnitPath;
 
@@ -68,19 +70,21 @@ public class WorldManager : MonoBehaviour {
         gameOverBarGravity.setGravity(on);
     }
 
-    public void updateResourceUI(bool team, int amt) {
-        if (team) {
-            leftResourceCountUI.updateDisplay(amt);
-        } else {
-            rightResourceCountUI.updateDisplay(amt);
+    // listener pattern code
+    public void registerLeftMinionSpawnListener(MinionSpawnListener listener) {
+        leftMinionSpawnListeners.Add(listener);
+    }
+    public void registerRightMinionSpawnListener(MinionSpawnListener listener) {
+        rightMinionSpawnListeners.Add(listener);
+    }
+    public void updateLeftMinionSpawn(Minion spawned) {
+        foreach (MinionSpawnListener listener in leftMinionSpawnListeners) {
+            listener.updateMinionSpawn(spawned);
         }
     }
-
-     public void updateTowerHPUI(bool team, int hp) {
-        if (team) {
-            leftTowerHPUI.updateDisplay(hp);
-        } else {
-            rightTowerHPUI.updateDisplay(hp);
+    public void updateRightMinionSpawn(Minion spawned) {
+        foreach (MinionSpawnListener listener in rightMinionSpawnListeners) {
+            listener.updateMinionSpawn(spawned);
         }
     }
 
@@ -109,12 +113,6 @@ public class WorldManager : MonoBehaviour {
     }
 
     void Start() {
-        go();
-    }
-
-    public void go() {
-        live = true;
-
         // get loadout from gamemanager and create the buttons for left team
         Minion[] loadout = GameManager.getInstance().getLoadout();
 
@@ -140,9 +138,6 @@ public class WorldManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (!live) {
-            return;
-        }
         // if Q pressed, spawn soldier for red
         if (Input.GetKeyDown(KeyCode.D)) {
             spawnLeft(leftSoldier);
@@ -187,26 +182,36 @@ public class WorldManager : MonoBehaviour {
             setNextResourceIncrementTime();
         }
     }
-
+    
+    // spawn all minions offscreen
+    const float OFFSCREEN = 1000f;
     public void spawnLeft(Minion prefab) {
-        if (leftTower.withdrawResource(prefab.cost)) {
-            spawnMinion(prefab, Entity.LEFT_TEAM);
+        if (!leftTower.withdrawResource(prefab.cost)) {
+            return;
         }
-    }
 
-    private void spawnRight(Minion prefab) {
-        if (rightTower.withdrawResource(prefab.cost)) {
-            spawnMinion(prefab, Entity.RIGHT_TEAM);
-        }
-    }
-
-    // instantiates a copy of the prefab and sets the team member variable
-    private void spawnMinion(Minion prefab, bool team) {
-        // spawn all minions offscreen
-        const float OFFSCREEN = 1000f;
+        // we have enough
         GameObject minion = Instantiate(prefab.gameObject, new Vector3(OFFSCREEN, OFFSCREEN, 1), Quaternion.identity);
-        if (minion != null) {
-            minion.GetComponent<Entity>().team = team;
+        if (minion == null) {
+            return;
         }
+
+        minion.GetComponent<Entity>().team = Entity.LEFT_TEAM;
+        updateLeftMinionSpawn(minion.GetComponent<Minion>());
+    }
+
+    public void spawnRight(Minion prefab) {
+        if (!rightTower.withdrawResource(prefab.cost)) {
+            return;
+        }
+
+        // we have enough
+        GameObject minion = Instantiate(prefab.gameObject, new Vector3(OFFSCREEN, OFFSCREEN, 1), Quaternion.identity);
+        if (minion == null) {
+            return;
+        }
+
+        minion.GetComponent<Entity>().team = Entity.RIGHT_TEAM;
+        updateRightMinionSpawn(minion.GetComponent<Minion>());
     }
 }

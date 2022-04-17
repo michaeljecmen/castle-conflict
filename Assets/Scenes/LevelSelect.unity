@@ -274,7 +274,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 441104851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b654920f318de034cb8485c81572e44a, type: 3}
+  m_Script: {fileID: 11500000, guid: b71c2c6ed49fc224c9c3d81f006ec4c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetScene: Level
@@ -323,7 +323,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 441104853}
-        m_TargetAssemblyTypeName: SceneChangeButton, Assembly-CSharp
+        m_TargetAssemblyTypeName: LevelLoaderButton, Assembly-CSharp
         m_MethodName: changeScene
         m_Mode: 1
         m_Arguments:

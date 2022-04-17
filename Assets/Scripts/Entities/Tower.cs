@@ -2,19 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower : Entity
-{
+public class Tower : Entity {
     private int health;
     private int resourceCount;
+    public List<ResourceListener> resourceListeners = new List<ResourceListener>();
+    public List<HealthListener> healthListeners = new List<HealthListener>();
 
-    public int getResourceCount() {
-        return resourceCount;
+    // support listening to resource and health updates
+    public void registerListener(HealthListener listener) {
+        healthListeners.Add(listener);
+    }
+    public void registerListener(ResourceListener listener) {
+        resourceListeners.Add(listener);
+    }
+    public void broadcastHealth() {
+        foreach (HealthListener listener in healthListeners) {
+            listener.updateHealth(health);
+        }
+    }
+    public void broadcastResource() {
+        foreach (ResourceListener listener in resourceListeners) {
+            listener.updateResource(resourceCount);
+        }
     }
 
     // store resource in tower
     public void depositResource(int amt) {
         resourceCount += amt;
-        WorldManager.getInstance().updateResourceUI(team, resourceCount);
+        broadcastResource();
     }
 
     // return whether or not you had enough resource to withdraw
@@ -23,14 +38,14 @@ public class Tower : Entity
             return false;
         }
         resourceCount -= amt;
-        WorldManager.getInstance().updateResourceUI(team, resourceCount);
+        broadcastResource();
         return true;
     }
 
     // take the specified amount of damage
     public void takeDamage(int damage) {
         health -= damage;
-        WorldManager.getInstance().updateTowerHPUI(team, health);
+        broadcastHealth();
         if (health <= 0) {
             // destroy the parent container which houses us
             // but before we do, trigger the gravity of the gameover object
@@ -41,7 +56,7 @@ public class Tower : Entity
 
     public void grantHealth(int amount) {
         health += amount;
-        WorldManager.getInstance().updateTowerHPUI(team, health);
+        broadcastHealth();
     }
 
     // if a unit on the other team hits us, we take damage and they die

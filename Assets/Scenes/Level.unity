@@ -503,9 +503,9 @@ MonoBehaviour:
   rightRG: {fileID: 1022027733683258920, guid: cb45472d316fdd149bb5632bb10a385f, type: 3}
   leftTower: {fileID: 1016722138}
   rightTower: {fileID: 799740628}
-  leftResourceCountUI: {fileID: 1382691459}
-  rightResourceCountUI: {fileID: 1939753297}
-  leftTowerHPUI: {fileID: 1916213100}
+  leftResourceCountUI: {fileID: 0}
+  rightResourceCountUI: {fileID: 0}
+  leftTowerHPUI: {fileID: 0}
   rightTowerHPUI: {fileID: 1831207561}
   spawnButtonPrefab: {fileID: 1924229665335801648, guid: 867bf4f30f8ad6744b08a78c92e16b74, type: 3}
   gameOverBarGravity: {fileID: 132323473}
@@ -1393,9 +1393,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1382691455}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc590789ede9f14db5906fc57e5f582, type: 3}
+  m_Script: {fileID: 11500000, guid: ab2de112646ca344cbf4d9104f8a6c5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 1
 --- !u!1 &1538107132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,6 +1605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a5df02c786fcc4d8e50f42bc9a298d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
 --- !u!114 &1831207562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1821,6 +1823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a5df02c786fcc4d8e50f42bc9a298d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 1
 --- !u!1 &1930359201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2021,9 +2024,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1939753293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc590789ede9f14db5906fc57e5f582, type: 3}
+  m_Script: {fileID: 11500000, guid: ab2de112646ca344cbf4d9104f8a6c5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
 --- !u!1001 &3623416067802982633
 PrefabInstance:
   m_ObjectHideFlags: 0

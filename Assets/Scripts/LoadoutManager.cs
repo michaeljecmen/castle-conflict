@@ -11,12 +11,20 @@ public class LoadoutManager : MonoBehaviour {
     private Minion[] loadout;
 
     void Start() {
-        loadout = GameManager.getInstance().getLoadout();
+        GameManager gman = GameManager.getInstance();
+        loadout = gman.getLoadout();
+        if (loadout == null) {
+            int maxLoadoutSize = gman.getLoadoutSize();
+            loadout = new Minion[maxLoadoutSize];
+            for (int i = 0; i < maxLoadoutSize; ++i) {
+                loadout[i] = null;
+            }
+        }
 
         // first, puts all minion buttons on screen
         // next, puts "current loadout" box on screen
         // with actual current loadout, if it exists
-        Minion[] masterList = GameManager.getInstance().getMasterMinionList();
+        Minion[] masterList = gman.getMasterMinionList();
         for (int i = 0; i < masterList.Length; i++) {
             GameObject button = Instantiate(loadoutMinionButton.gameObject, loadoutMinionButton.gameObject.transform.position, Quaternion.identity);
             LoadoutButton lb = button.GetComponent<LoadoutButton>();
