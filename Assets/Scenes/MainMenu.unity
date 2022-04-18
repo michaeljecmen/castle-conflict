@@ -343,6 +343,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197248054}
   m_CullTransparentMesh: 1
+--- !u!1001 &206606434
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 944735165389709522, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_Name
+      value: LeftHumanPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 944735165389709532, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+--- !u!114 &206606435 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 944735165389709533, guid: c3a7f625d4d1e344781e67bad3b0ee2a, type: 3}
+  m_PrefabInstance: {fileID: 206606434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8850ed7c4c9495644affdde40655b616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &718177084
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,6 +423,7 @@ GameObject:
   - component: {fileID: 718177088}
   - component: {fileID: 718177087}
   - component: {fileID: 718177086}
+  - component: {fileID: 718177089}
   m_Layer: 5
   m_Name: SinglePlayerButton
   m_TagString: Untagged
@@ -426,10 +495,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1477051205}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 718177089}
+        m_TargetAssemblyTypeName: SinglePlayerSceneLoaderButton, Assembly-CSharp
         m_MethodName: changeScene
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -476,6 +545,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718177084}
   m_CullTransparentMesh: 1
+--- !u!114 &718177089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718177084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5386a72a947f3d42a8ba753ebc55c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetScene: LevelSelect
+  humanPlayer: {fileID: 206606435}
 --- !u!1 &738183613
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,14 +644,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1477051205}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: printMessage
+        m_MethodName: changeScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Multiplayer is not ready yet!
+          m_StringArgument: PVP
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &738183616

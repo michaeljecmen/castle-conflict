@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // base class for all living objects
-public class Entity : MonoBehaviour
-{
+public class Entity : MonoBehaviour {
     // constants for the Entity class
     public const bool LEFT_TEAM = true;
     public const bool RIGHT_TEAM = false;
@@ -29,9 +28,8 @@ public class Entity : MonoBehaviour
         return true;
     }
 
-    // destroys the entity and deregisters it from the worldobject
+    // destroys the entity and do any cleanup work
     protected void DestroyEntity() {
-        WorldManager.getInstance().destroyUnit(this);
         Destroy(gameObject);
     }
 }

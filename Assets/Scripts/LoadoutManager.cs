@@ -12,8 +12,8 @@ public class LoadoutManager : MonoBehaviour {
 
     void Start() {
         GameManager gman = GameManager.getInstance();
-        loadout = gman.getLoadout();
-        if (loadout == null) {
+        loadout = gman.getLeftPlayer().getLoadout();
+        if (loadout == null || loadout.Length == 0) {
             int maxLoadoutSize = gman.getLoadoutSize();
             loadout = new Minion[maxLoadoutSize];
             for (int i = 0; i < maxLoadoutSize; ++i) {
@@ -33,9 +33,11 @@ public class LoadoutManager : MonoBehaviour {
             lb.initialize(masterList[i]);
             lb.setPosition(i);
         }
+
+        // TODO "current loadout" box
     }
 
-    // put in first null location
+    // put minion in first null location we find
     public void addToLoadout(Minion minion) {
         for (int i = 0; i < GameManager.getInstance().getLoadoutSize(); ++i) {
             // TODO try with loadout[i] == minion
@@ -51,7 +53,7 @@ public class LoadoutManager : MonoBehaviour {
     public void removeFromLoadout(Minion minion) {
         for (int i = 0; i < GameManager.getInstance().getLoadoutSize(); ++i) {
             // TODO try with loadout[i] == minion
-            if (loadout[i].gameObject.name == minion.gameObject.name) {
+            if (loadout[i] != null && loadout[i].gameObject.name == minion.gameObject.name) {
                 loadout[i] = null;
                 currentLoadoutSize--;
                 updateBackButtonStatus();
@@ -65,7 +67,7 @@ public class LoadoutManager : MonoBehaviour {
     }
 
     public void setLoadoutAndGoToLevelSelect() {
-        GameManager.getInstance().setLoadout(loadout);
+        GameManager.getInstance().getLeftPlayer().setLoadout(loadout); // TODO set for "current" player
         GameManager.getInstance().changeScene("LevelSelect");
     }
 }

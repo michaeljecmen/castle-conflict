@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tower : Entity {
+    const float OFFSCREEN = 1000f;
     private int health;
     private int resourceCount;
     public List<ResourceListener> resourceListeners = new List<ResourceListener>();
     public List<HealthListener> healthListeners = new List<HealthListener>();
+    public List<MinionSpawnListener> minionSpawnListeners = new List<MinionSpawnListener>();
 
     // support listening to resource and health updates
     public void registerListener(HealthListener listener) {
@@ -14,6 +16,9 @@ public class Tower : Entity {
     }
     public void registerListener(ResourceListener listener) {
         resourceListeners.Add(listener);
+    }
+    public void registerListener(MinionSpawnListener listener) {
+        minionSpawnListeners.Add(listener);
     }
     public void broadcastHealth() {
         foreach (HealthListener listener in healthListeners) {
@@ -24,6 +29,26 @@ public class Tower : Entity {
         foreach (ResourceListener listener in resourceListeners) {
             listener.updateResource(resourceCount);
         }
+    }
+    public void broadcastMinionSpawn(Minion spawned) {
+        foreach (MinionSpawnListener listener in minionSpawnListeners) {
+            listener.updateMinionSpawn(spawned);
+        }
+    }
+
+    public void spawnMinion(Minion prefab) {
+        if (!withdrawResource(prefab.cost)) {
+            return;
+        }
+
+        // we have enough
+        GameObject minion = Instantiate(prefab.gameObject, new Vector3(OFFSCREEN, OFFSCREEN, 1), Quaternion.identity);
+        if (minion == null) {
+            return;
+        }
+
+        minion.GetComponent<Entity>().team = team;
+        broadcastMinionSpawn(minion.GetComponent<Minion>());
     }
 
     // store resource in tower

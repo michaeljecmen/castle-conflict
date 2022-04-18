@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceGatherer : Minion
-{
-    public Vector3 towerLocation; // todo REMOVE
+public class ResourceGatherer : Minion {
     private int carriedValue = 0;
 
     public bool isCarrying() {

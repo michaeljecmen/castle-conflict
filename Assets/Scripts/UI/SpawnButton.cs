@@ -5,6 +5,6 @@ using UnityEngine;
 public class SpawnButton : MinionButtonGenerator {   
     // called when button clicked
     public void spawnMinionForLeftTeam() {
-        WorldManager.getInstance().spawnLeft(prefab);
+        WorldManager.getInstance().leftTower.spawnMinion(prefab);
     }
 }

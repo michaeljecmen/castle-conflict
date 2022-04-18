@@ -7,8 +7,10 @@ public class GameManager : MonoBehaviour {
     private static GameManager instance;
     public Minion[] masterMinionList;
     public int loadoutSize;
-    private Minion[] loadout;
     public Minion[] defaultLoadout;
+    private Player leftPlayer;
+    private Player rightPlayer;
+    private List<LevelLoadedListener> loadedListeners = new List<LevelLoadedListener>();
 
     public static GameManager getInstance() {
         return instance;
@@ -31,11 +33,28 @@ public class GameManager : MonoBehaviour {
     public int getLoadoutSize() {
         return loadoutSize;
     }
-    public Minion[] getLoadout() {
-        return loadout;
+
+    public Player getRightPlayer() {
+        return rightPlayer;
     }
-    public void setLoadout(Minion[] load) {
-        loadout = load;
+    public Player getLeftPlayer() {
+        return leftPlayer;
+    }
+    public void setRightPlayer(Player player) {
+        rightPlayer = player;
+    }
+    public void setLeftPlayer(Player player) {
+        leftPlayer = player;
+    }
+
+    // for level loaded alerts
+    public void registerListener(LevelLoadedListener listener) {
+        loadedListeners.Add(listener);
+    }
+    public void broadcastLevelLoaded() {
+        foreach (LevelLoadedListener l in loadedListeners) {
+            l.onLoaded();
+        }
     }
 
     // create a worldmanager object for the given level

@@ -72,9 +72,6 @@ public class Minion : Entity
    
     // register the object with the worldmanager and set movement info
     void Start() {
-        // team should already be registered at this point
-        WorldManager.getInstance().registerUnit(this);
-
         // set our time to cross
         timeToCross = WorldManager.getInstance().groundUnitPath.getLength() / speed;
 
