@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine.UI;
 
 public class LoadoutButton : MinionButtonGenerator {
-    private bool inLoadout = false;
+    private bool inLoadout = false; // TODO this isn't set correctly in start
     private LoadoutManager manager;
     private float headerSize;
 
@@ -15,16 +15,17 @@ public class LoadoutButton : MinionButtonGenerator {
 
     public void setLoadoutManager(LoadoutManager man) {
         manager = man;
+
+        // check the manager to see if we're in the loadout currently
+        inLoadout = manager.currentLoadoutButtons.ContainsKey(prefab.gameObject.name);
     }
 
     // called when button clicked
     public void toggleMinionInLoadout() {
-        if (inLoadout) {
-            manager.removeFromLoadout(prefab);
-        } else {
-            manager.addToLoadout(prefab);
+        bool success = (inLoadout) ? manager.removeFromLoadout(prefab) : manager.addToLoadout(prefab);
+        if (success) {
+            inLoadout = !inLoadout;
         }
-        inLoadout = !inLoadout;
     }
 
     // we want as many rows as needed now
