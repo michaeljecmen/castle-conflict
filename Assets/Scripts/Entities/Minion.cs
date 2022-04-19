@@ -91,6 +91,12 @@ public class Minion : Entity
 
         float fractionOfJourney = elapsed / timeToCross;
 
+        // do not move after time is up
+        if (fractionOfJourney > 1) {
+            DestroyEntity();
+            return;
+        }
+
         bool movingRight = (team == Entity.LEFT_TEAM) == movingForward;
         if (!movingRight) {
             fractionOfJourney = 1-fractionOfJourney;

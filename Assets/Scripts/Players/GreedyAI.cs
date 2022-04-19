@@ -10,7 +10,7 @@ public class GreedyAI : Player {
     // cost -> to list of minions with that cost
     private SortedDictionary<int, List<Minion>> loadoutByCost;
 
-    class GreedyAIResourceListener : ResourceListener { // TODO don't spawn when dead
+    class GreedyAIResourceListener : ResourceListener {
         GreedyAI parent;
         public GreedyAIResourceListener(GreedyAI parent_) {
             parent = parent_;
@@ -21,8 +21,6 @@ public class GreedyAI : Player {
     }
 
     public override void onLoaded() {
-        Debug.Log("GREEDY AI LOADED");
-
         // costs sorted in reverse order
         loadoutByCost = new SortedDictionary<int, List<Minion>>(Comparer<int>.Create((x, y) => y.CompareTo(x)));
         foreach (Minion m in loadout) {
@@ -47,16 +45,15 @@ public class GreedyAI : Player {
             foreach (KeyValuePair<int, List<Minion>> entry in loadoutByCost) {
                 // if we can afford to buy this bucket of minions
                 if (amount >= entry.Key) {
-                    List<Minion> bucket = entry.Value;
-
-                    // pick one at random and spawn it
-                    int index = rand.Next(bucket.Count);
-                    WorldManager.getInstance().rightTower.spawnMinion(bucket[index]);
-
                     // update our cooldown
                     timestampOfNextMinionSpawn = Time.time + spawnCooldown;
-                    Debug.Log("ts: " + timestampOfNextMinionSpawn);
-                    Debug.Log("time: " + Time.time); // TODO fix
+
+                    // pick one at random and spawn it
+                    // SPAWNING THE MINION WILL CAUSE UPDATERESOURCE TO BE CALLED AGAIN,
+                    // SO IT MUST BE THE FINAL THING WE DO IN THIS FUNCTION
+                    List<Minion> bucket = entry.Value;
+                    int index = rand.Next(bucket.Count);
+                    WorldManager.getInstance().rightTower.spawnMinion(bucket[index]);
 
                     // leave the loop once we choose one
                     return;

@@ -37,6 +37,10 @@ public class Tower : Entity {
     }
 
     public void spawnMinion(Minion prefab) {
+        if (health <= 0) {
+            return;
+        }
+
         if (!withdrawResource(prefab.cost)) {
             return;
         }

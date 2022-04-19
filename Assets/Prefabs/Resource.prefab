@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3220eb37db5ab4bbda8b4726bf6eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 25
+  value: 15
   startScale: {x: 1.25, y: 1.25, z: 1}
   endScale: {x: 9.375, y: 15.625, z: 0}
   timeToGrow: 1

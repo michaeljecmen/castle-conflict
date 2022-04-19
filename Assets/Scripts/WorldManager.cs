@@ -15,8 +15,6 @@ public class WorldManager : MonoBehaviour {
             instance = this;
         }
     }
- 
-    private bool live = false;
 
     public int maxTowerHealth;
     public int startingResourceCount;
@@ -74,7 +72,7 @@ public class WorldManager : MonoBehaviour {
 
     void Start() {
         // level has loaded, broadcast it to the players
-        GameManager.getInstance().broadcastLevelLoaded();
+        GameManager.getInstance().levelLoaded();
 
         // pick the first tree spawn time
         setNextTreeSpawnTime();

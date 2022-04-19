@@ -47,4 +47,4 @@ MonoBehaviour:
   - {fileID: 1022027733683258920, guid: cb45472d316fdd149bb5632bb10a385f, type: 3}
   - {fileID: 7506396866275358162, guid: 842b124c06a2cfd40a97ab2440c3b7a3, type: 3}
   - {fileID: 2281498692210415149, guid: c294c7125ec719a4eb03f470abd1daad, type: 3}
-  spawnCooldown: 3
+  spawnCooldown: 1

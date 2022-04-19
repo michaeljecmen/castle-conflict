@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PVE.unity
     guid: f886d20c5ad35f946bf928e784d49fa1
+  - enabled: 1
+    path: Assets/Scenes/MultiplayerModeSelect.unity
+    guid: e36b506f060b5764d8c3f44aba1db80c
   m_configObjects: {}

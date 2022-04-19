@@ -16,8 +16,7 @@ public abstract class Player : MonoBehaviour, LevelLoadedListener {
         }
     }
 
-    void Start() {
-        Debug.Log("PLAYER START");
+    void Awake() {
         // all players register themselves with the gamemanager as loaded listeners
         GameManager.getInstance().registerListener(this); // TODO deregister this when you no longer exist (for example the greedyai will set itself as a listener from the button screen but will not exist if a diff level is chosen)
     }

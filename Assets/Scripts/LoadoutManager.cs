@@ -12,7 +12,7 @@ public class LoadoutManager : MonoBehaviour {
 
     void Start() {
         GameManager gman = GameManager.getInstance();
-        loadout = gman.getLeftPlayer().getLoadout();
+        loadout = gman.currentLoadoutSelector.getLoadout();
         if (loadout == null || loadout.Length == 0) {
             int maxLoadoutSize = gman.getLoadoutSize();
             loadout = new Minion[maxLoadoutSize];
@@ -34,7 +34,8 @@ public class LoadoutManager : MonoBehaviour {
             lb.setPosition(i);
         }
 
-        // TODO "current loadout" box
+        // display "current loadout" box TODO
+
     }
 
     // put minion in first null location we find
@@ -67,7 +68,7 @@ public class LoadoutManager : MonoBehaviour {
     }
 
     public void setLoadoutAndGoToLevelSelect() {
-        GameManager.getInstance().getLeftPlayer().setLoadout(loadout); // TODO set for "current" player
-        GameManager.getInstance().changeScene("LevelSelect");
+        GameManager.getInstance().currentLoadoutSelector.setLoadout(loadout);
+        GameManager.getInstance().goBack();
     }
 }
