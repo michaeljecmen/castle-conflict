@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadout: []
-  spawnButtonPrefab: {fileID: 1924229665335801648, guid: 867bf4f30f8ad6744b08a78c92e16b74, type: 3}
+  spawnButtonPrefab: {fileID: 1924229665335801648, guid: 61b95aa51c68bbe4cac95f5a9e26e8eb, type: 3}

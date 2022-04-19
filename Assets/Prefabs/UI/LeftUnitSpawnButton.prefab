@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 6479950024636756079}
   - component: {fileID: 6806307569881016}
   m_Layer: 5
-  m_Name: UnitSpawnButton
+  m_Name: LeftUnitSpawnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -7,4 +7,7 @@ public class SpawnButton : MinionButtonGenerator {
     public void spawnMinionForLeftTeam() {
         WorldManager.getInstance().leftTower.spawnMinion(prefab);
     }
+    public void spawnMinionForRightTeam() {
+        WorldManager.getInstance().rightTower.spawnMinion(prefab);
+    }
 }
