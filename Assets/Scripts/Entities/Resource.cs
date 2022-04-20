@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resource : MonoBehaviour
-{
+public class Resource : MonoBehaviour {
     // the amount of resource given by this object, if collected
     public int value;
     public Vector3 startScale;

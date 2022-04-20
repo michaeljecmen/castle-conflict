@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackUnit : Minion
-{
+public class AttackUnit : Minion {
     // damage we deal to the enemy tower if we hit
     public int towerDamage;
 

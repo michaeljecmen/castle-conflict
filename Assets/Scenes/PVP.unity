@@ -507,7 +507,6 @@ MonoBehaviour:
   rightResourceCountUI: {fileID: 1939753297}
   leftTowerHPUI: {fileID: 1916213100}
   rightTowerHPUI: {fileID: 1831207561}
-  spawnButtonPrefab: {fileID: 1924229665335801648, guid: 867bf4f30f8ad6744b08a78c92e16b74, type: 3}
   gameOverBarGravity: {fileID: 132323473}
   groundUnitPath: {fileID: 664747096}
 --- !u!1 &306490072
@@ -841,7 +840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   p0: {x: -890, y: -375, z: 0}
-  p1: {x: -550, y: -500, z: 0}
+  p1: {x: -550, y: 200, z: 0}
   p2: {x: 550, y: -500, z: 0}
   p3: {x: 890, y: -375, z: 0}
 --- !u!4 &664747097

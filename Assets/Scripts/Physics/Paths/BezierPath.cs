@@ -9,10 +9,10 @@ using System;
  * the curve at time t from [0, 1].
  */
 public class BezierPath : Path {
-    public Vector3 p0 = new Vector3(-8, 3, 0);
-    public Vector3 p1 = new Vector3(-7, -4, 0);
-    public Vector3 p2 = new Vector3(7, -4, 0);
-    public Vector3 p3 = new Vector3(8, -3, 0);
+    public Vector3 p0;
+    public Vector3 p1;
+    public Vector3 p2;
+    public Vector3 p3;
 
     private float length;
 

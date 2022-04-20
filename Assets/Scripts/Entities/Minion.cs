@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minion : Entity
-{
+public class Minion : Entity {
     // the power level of this entity
     public int rank = 0;
 
@@ -68,6 +67,9 @@ public class Minion : Entity
         movingForward = false;
         turnTime = Time.time;
         startTime = 2*Time.time - timeToCross - startTime;
+
+        // also flip the image itself
+        GetComponent<SpriteRenderer>().flipX = true;
     }
    
     // register the object with the worldmanager and set movement info
