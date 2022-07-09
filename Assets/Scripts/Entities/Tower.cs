@@ -51,7 +51,7 @@ public class Tower : Entity {
             return;
         }
 
-        minion.GetComponent<Entity>().team = team;
+        minion.GetComponent<Entity>().setTeam(getTeam());
         broadcastMinionSpawn(minion.GetComponent<Minion>());
     }
 

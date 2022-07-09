@@ -1095,6 +1095,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  leftSprite: {fileID: 0}
+  rightSprite: {fileID: 0}
 --- !u!1 &887106974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1295,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
+  leftSprite: {fileID: 0}
+  rightSprite: {fileID: 0}
 --- !u!1 &1168878237
 GameObject:
   m_ObjectHideFlags: 0

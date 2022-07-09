@@ -852,9 +852,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterMinionList:
-  - {fileID: 3100618052791069087, guid: 5ea60121ec05eb948b052a9816157e1c, type: 3}
-  - {fileID: 6684234656223252963, guid: 1784ccb03e0474341bc74838fff77965, type: 3}
-  - {fileID: 2016976150, guid: 348c123406ec239498b85bbf6588a5bf, type: 3}
   - {fileID: 1022027733683258920, guid: cb45472d316fdd149bb5632bb10a385f, type: 3}
   - {fileID: 7506396866275358162, guid: 842b124c06a2cfd40a97ab2440c3b7a3, type: 3}
   - {fileID: 2281498692210415149, guid: c294c7125ec719a4eb03f470abd1daad, type: 3}

@@ -2,13 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceGatherer : Minion {
-    private int carriedValue = 0;
-
-    public bool isCarrying() {
-        return carriedValue != 0;
-    }
-
+public class Lumberjack : ResourceCarrier {
     // if a unit on the other team hits us, we take damage and they die
     void OnCollisionEnter2D(Collision2D collision) {
         // resolve collision
@@ -27,7 +21,7 @@ public class ResourceGatherer : Minion {
         Tower tower = collision.gameObject.GetComponent<Tower>();
         if (tower != null) {
             // check which team
-            if (team != tower.team) {
+            if (getTeam() != tower.getTeam()) {
                 DestroyEntity();
             } else if (carriedValue != 0) {
                 // deposit resource and destroy ourselves

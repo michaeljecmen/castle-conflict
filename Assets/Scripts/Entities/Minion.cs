@@ -99,7 +99,7 @@ public class Minion : Entity {
             return;
         }
 
-        bool movingRight = (team == Entity.LEFT_TEAM) == movingForward;
+        bool movingRight = (getTeam() == Entity.LEFT_TEAM) == movingForward;
         if (!movingRight) {
             fractionOfJourney = 1-fractionOfJourney;
         }
