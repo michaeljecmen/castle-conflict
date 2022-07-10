@@ -22,24 +22,19 @@ public class Thief : ResourceCarrier {
 
     // when we collide with an enemy resource carrier, take what they're holding (if they are)
     public override void handleEnemyResourceCarrierCollision(ResourceCarrier enemyCarrier) {
-        Debug.Log("thief collided with RG");
         // if we're carrying, do nothing
         if (isCarrying()) {
             return;
         }
-        Debug.Log("not carrying, check");
         
         // if the enemy isn't carrying, do nothing
-        Debug.Log("enemy is carrying: " + enemyCarrier.getCarriedValue());
         if (!enemyCarrier.isCarrying()) {
             return;
         }
-        Debug.Log("enemy is carrying, check");
 
         // otherwise take what they've got and destroy them
         carriedValue = enemyCarrier.getCarriedValue();
         enemyCarrier.DestroyEntity();
         turnBack();
-        Debug.Log("enemy destroyed"); // TODO fix this bug
     }
 }

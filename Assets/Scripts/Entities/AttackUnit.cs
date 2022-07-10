@@ -6,9 +6,11 @@ public class AttackUnit : Minion {
     // damage we deal to the enemy tower if we hit
     public int towerDamage;
 
+    // fat interface function
+    public virtual void onCollidedWithMinion(Minion other) {}
+
     // If colliding with other other team's entities
-    void OnCollisionEnter2D(Collision2D collision)
-    {
+    void OnCollisionEnter2D(Collision2D collision) {
         if (!shouldCollisionOccur(collision)) {
             return;
         }
@@ -21,6 +23,7 @@ public class AttackUnit : Minion {
             if (rank <= other.rank) {
                 DestroyEntity();
             }
+            onCollidedWithMinion(other);
         }
 
         // when colliding with the enemy tower, attack units should die

@@ -12,7 +12,7 @@ public abstract class Player : MonoBehaviour, LevelLoadedListener {
     public virtual void onLoaded() {
         // set our loadout to the default if we have none
         if (loadout == null || loadout.Length == 0) {
-            setLoadout(GameManager.getInstance().defaultLoadout);
+            setLoadout(GameManager.getInstance().getDefaultLoadout());
         }
     }
 

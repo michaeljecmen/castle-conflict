@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     private static GameManager instance;
     public Minion[] masterMinionList;
     public int loadoutSize;
-    public Minion[] defaultLoadout;
+    private Minion[] defaultLoadout;
     private Player leftPlayer;
     private Player rightPlayer;
     private List<LevelLoadedListener> loadedListeners = new List<LevelLoadedListener>();
@@ -28,6 +28,16 @@ public class GameManager : MonoBehaviour {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        // set default loadout to the first N from the master list
+        defaultLoadout = new Minion[loadoutSize];
+        for (int i = 0; i < loadoutSize; ++i) {
+            defaultLoadout[i] = masterMinionList[i];
+        }
+    }
+
+    public Minion[] getDefaultLoadout() {
+        return defaultLoadout;
     }
 
     public Minion[] getMasterMinionList() {

@@ -118,12 +118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955dfc8734920fc4f8e88e4dd4d4c53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 1
   leftSprite: {fileID: 21300000, guid: 5e3e74cb9cb243947a1e768a93ae206e, type: 3}
   rightSprite: {fileID: 21300000, guid: afff749fe63b6254f8e6492cade91140, type: 3}
-  rank: -1
+  rank: 0
   speed: 550
   cost: 5
-  towerDamage: 4
+  towerDamage: 2
 --- !u!61 &6301932598849210877
 BoxCollider2D:
   m_ObjectHideFlags: 0

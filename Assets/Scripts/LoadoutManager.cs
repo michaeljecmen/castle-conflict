@@ -69,7 +69,6 @@ public class LoadoutManager : MonoBehaviour {
     // return true if add was successful
     public bool addToLoadout(Minion minion) {
         for (int i = 0; i < GameManager.getInstance().getLoadoutSize(); ++i) {
-            // TODO try with loadout[i] == minion
             if (loadout[i] == null) {
                 loadout[i] = minion;
                 currentLoadoutButtons[minion.gameObject.name] = createCurrentLoadoutButton(minion, i);
