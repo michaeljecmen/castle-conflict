@@ -55,6 +55,10 @@ public class Tower : Entity {
         broadcastMinionSpawn(minion.GetComponent<Minion>());
     }
 
+    public int getResourceCount() {
+        return resourceCount;
+    }
+
     // store resource in tower
     public void depositResource(int amt) {
         resourceCount += amt;

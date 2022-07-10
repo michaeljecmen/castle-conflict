@@ -41,7 +41,7 @@ public class Entity : MonoBehaviour {
     }
 
     // destroys the entity and do any cleanup work
-    protected void DestroyEntity() {
+    public void DestroyEntity() {
         Destroy(gameObject);
     }
 }

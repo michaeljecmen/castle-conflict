@@ -3,44 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Lumberjack : ResourceCarrier {
-    // if a unit on the other team hits us, we take damage and they die
-    void OnCollisionEnter2D(Collision2D collision) {
-        // resolve collision
-        Resource resource = collision.gameObject.GetComponent<Resource>();
+    // when we collide with the other tower, destroy ourselves
+    public override void handleEnemyTowerCollision(Tower enemyTower) {
+        DestroyEntity();
+    }
 
-        // can only carry one at a time
-        if (resource != null && !isCarrying()) {
-            carriedValue = resource.value;
-            resource.onCollected();
+    // can be overridden by child lumberjacks to determine how many resources they get
+    // by default it's the full value of the resource
+    public virtual int getResourceValue(Resource resource) {
+        return resource.value;
+    }
 
-            // now work back towards our tower
-            turnBack();
-        }
-
-        // if we are carriedValue and we collide with the tower, deposit resources and destroy ourselves
-        Tower tower = collision.gameObject.GetComponent<Tower>();
-        if (tower != null) {
-            // check which team
-            if (getTeam() != tower.getTeam()) {
-                DestroyEntity();
-            } else if (carriedValue != 0) {
-                // deposit resource and destroy ourselves
-                tower.depositResource(carriedValue);
-                DestroyEntity();
-            }
-        }
-
-        // IMPORTANT: only check if collision should occur once we know
-        // we are colliding with a unit, prevent us from not colliding with
-        // our own tower when we want to deposit
-        if (!shouldCollisionOccur(collision)) {
+    // pick up resource and take the full value therein
+    // do nothing if already carrying something
+    public override void handleResourceCollision(Resource resource) {
+        if (isCarrying()) {
             return;
         }
 
-        // if we got hit by an attackunit, get hit
-        AttackUnit attacker = collision.gameObject.GetComponent<AttackUnit>();
-        if (attacker != null) {
-            DestroyEntity();
-        }
+        carriedValue = getResourceValue(resource);
+        resource.onCollected();
+
+        // now work back towards our tower
+        turnBack();
     }
 }
